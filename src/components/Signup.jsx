@@ -1,12 +1,14 @@
-"use client";
-
 import { useState, useEffect } from "react";
-import { ArrowLeft } from "lucide-react";
+
+import { ArrowLeft, Flame } from "lucide-react";
+
 import "./Signup.css";
 
 import HongKong from "../assets/flags/Hk.png";
 import Singapore from "../assets/flags/singapore.png";
 import Usa from "../assets/flags/usa.png";
+
+import { useNavigate } from "react-router-dom";
 
 const locations = [
   {
@@ -36,7 +38,9 @@ const locations = [
 ];
 
 export default function EmailVerification() {
-  const [countdown, setCountdown] = useState(99);
+  const navigate = useNavigate();
+
+  const [countdown, setCountdown] = useState(10);
   const [verificationCode, setVerificationCode] = useState([
     "",
     "",
@@ -68,8 +72,12 @@ export default function EmailVerification() {
     }
   };
 
+  const verify = () => {
+    //
+  };
+
   return (
-    <div className="container">
+    <div className="signup-container">
       <div className="left-section">
         <button className="back-button">
           <ArrowLeft className="w-4 h-4" />
@@ -105,14 +113,11 @@ export default function EmailVerification() {
       </div>
 
       <div className="right-section">
-        <div className="form-container">
-          <img
-            src="/logo.svg"
-            alt="Logo"
-            width={150}
-            height={40}
-            className="logo"
-          />
+        <div className="signup-form-container">
+          <div className="signup-logo">
+            <Flame color="red" />
+            <p>Logoipsum</p>
+          </div>
 
           <h2 className="title">Verify your Email</h2>
           <p className="description">
@@ -134,7 +139,9 @@ export default function EmailVerification() {
             ))}
           </div>
 
-          <button className="verify-button">Verify</button>
+          <button className="verify-button" onClick={() => verify()}>
+            Verify
+          </button>
 
           <p className="countdown">
             Wait {countdown} seconds before requesting a new code.
@@ -142,8 +149,8 @@ export default function EmailVerification() {
 
           <p className="terms">
             By continuing, you&apos;re agreeing to Nobody&apos;s{" "}
-            <a href="#">Terms of Service</a>, <a href="#">Privacy Policy</a> and{" "}
-            <a href="#">Cookie Policy</a>.
+            <a href="#">Terms of Service</a>, <a href="#">Privacy Policy</a>{" "}
+            <br /> and <a href="#">Cookie Policy</a>.
           </p>
         </div>
       </div>

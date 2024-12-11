@@ -1,4 +1,5 @@
 import "./Stepper.css";
+import { Check, Circle } from "lucide-react";
 
 const steps = [
   { label: "Business Type", completed: true },
@@ -32,7 +33,10 @@ function Stepper() {
               step.active ? "active" : ""
             }`}
           >
-            <div className="step-icon">{step.completed}</div>
+            <div className="step-icon">
+              {step.completed ? <Check color="white" /> : ""}
+              {step.active ? <Circle color="white" strokeWidth={2} /> : ""}
+            </div>
             <span className="step-label">{step.label}</span>
           </div>
         ))}
