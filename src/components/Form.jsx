@@ -1,6 +1,7 @@
 "use client";
 
 import "./Form.css";
+import Stepper from "./stepper/Stepper";
 
 export default function Form() {
   return (
@@ -8,13 +9,7 @@ export default function Form() {
       <div className="form-container">
         <h1 className="form-title">Multi-Step Process Form Assignment</h1>
         <div className="progress-bar">
-          <div className="progress-step active">Business Info</div>
-          <div className="progress-step">Authorized Representative</div>
-          <div className="progress-step">Business Owners</div>
-          <div className="progress-step">Company Directors</div>
-          <div className="progress-step">Support Information</div>
-          <div className="progress-step">Add Details</div>
-          <div className="progress-step">Complete Registration</div>
+          <Stepper />
         </div>
 
         <section className="form-page">
