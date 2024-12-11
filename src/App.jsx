@@ -1,9 +1,11 @@
-import Signup from "./components/Signup";
+// import Signup from "./components/Signup";
+import Form from "./components/Form";
 
 const App = () => {
   return (
     <div>
-      <Signup />
+      {/* <Signup /> */}
+      <Form />
     </div>
   );
 };
