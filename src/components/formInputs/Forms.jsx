@@ -240,7 +240,7 @@ const Forms = () => {
               </button>
               or drag and drop
             </p>
-            <p>Maximum file size 10 MB</p>
+            <p>Maximum file size 50 MB</p>
             <input
               type="file"
               accept="application/pdf,image/*"
@@ -276,7 +276,7 @@ const Forms = () => {
               </button>
               or drag and drop
             </p>
-            <p>Maximum file size 10 MB</p>
+            <p>Maximum file size 50 MB</p>
             <input
               type="file"
               accept="image/*"
