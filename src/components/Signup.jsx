@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-
 import { ArrowLeft, Flame } from "lucide-react";
-
-import "./Signup.css";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 import HongKong from "../assets/flags/Hk.png";
 import Singapore from "../assets/flags/singapore.png";
 import Usa from "../assets/flags/usa.png";
 
-import { useNavigate } from "react-router-dom";
+import "./Signup.css";
 
 const locations = [
   {
@@ -40,6 +39,7 @@ const locations = [
 export default function EmailVerification() {
   const navigate = useNavigate();
 
+  const [resend, setResend] = useState(false);
   const [countdown, setCountdown] = useState(10);
   const [verificationCode, setVerificationCode] = useState([
     "",
@@ -49,13 +49,26 @@ export default function EmailVerification() {
     "",
     "",
   ]);
+  const [otp, setOtp] = useState([]);
 
   useEffect(() => {
     if (countdown > 0) {
       const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
       return () => clearTimeout(timer);
+    } else {
+      setCountdown(10);
+      setResend(false);
     }
   }, [countdown]);
+
+  const sendOtp = () => {
+    const otpCode = [];
+    for (let i = 0; i < 6; i++) {
+      otpCode.push(Math.floor(Math.random() * 10));
+    }
+    setOtp(otpCode);
+    toast.info(`Your OTP is: ${otpCode.join("")}`);
+  };
 
   const handleInputChange = (index, value) => {
     if (value.length <= 1) {
@@ -73,7 +86,15 @@ export default function EmailVerification() {
   };
 
   const verify = () => {
-    //
+    const enteredOtp = verificationCode.join("");
+    const generatedOtp = otp.join("");
+
+    if (enteredOtp === generatedOtp) {
+      toast.success("Logging in");
+      navigate("/form");
+    } else {
+      toast.error("Incorrect OTP. Please try again.");
+    }
   };
 
   return (
@@ -90,14 +111,14 @@ export default function EmailVerification() {
             {locations.map((location) => (
               <div key={location.country} className="location-card">
                 <div className="card-header">
-                  <img
-                    src={location.flagIcon}
-                    alt={`${location.country} flag`}
-                    width={24}
-                    height={16}
-                    className="card-flag"
-                  />
                   <div className="card-content">
+                    <img
+                      src={location.flagIcon}
+                      alt={`${location.country} flag`}
+                      width={24}
+                      height={16}
+                      className="card-flag"
+                    />
                     <h3 className="card-title">{location.title}</h3>
                     <p className="card-type">{location.type}</p>
                     <div className="card-details">
@@ -139,13 +160,28 @@ export default function EmailVerification() {
             ))}
           </div>
 
-          <button className="verify-button" onClick={() => verify()}>
+          <button className="verify-button" onClick={verify}>
             Verify
           </button>
 
-          <p className="countdown">
-            Wait {countdown} seconds before requesting a new code.
-          </p>
+          {resend ? (
+            <p className="countdown">
+              Wait {countdown} seconds before requesting a new code.
+            </p>
+          ) : (
+            <p>
+              Didn't receive a code?{" "}
+              <button
+                onClick={() => {
+                  setResend(true);
+                  sendOtp();
+                }}
+                className="resend"
+              >
+                Resend Code
+              </button>
+            </p>
+          )}
 
           <p className="terms">
             By continuing, you&apos;re agreeing to Nobody&apos;s{" "}

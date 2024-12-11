@@ -1,4 +1,39 @@
+import { useState } from "react";
+
 const Forms = () => {
+  const [incorporationFile, setIncorporationFile] = useState(null);
+  const [logoFile, setLogoFile] = useState(null);
+
+  //function to handle file drop functionlatiy
+  const handleFileDrop = (event, type) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const file = event.dataTransfer.files[0];
+    if (file) {
+      if (file.size <= 50 * 1024 * 1024) {
+        type === "incorporation"
+          ? setIncorporationFile(file)
+          : setLogoFile(file);
+      } else {
+        alert("File size should be less than 50MB");
+      }
+    }
+  };
+
+  //function to handle click functionaloty
+  const handleFileSelect = (event, type) => {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.size <= 50 * 1024 * 1024) {
+        type === "incorporation"
+          ? setIncorporationFile(file)
+          : setLogoFile(file);
+      } else {
+        alert("File size should be less than 50MB");
+      }
+    }
+  };
+
   return (
     <>
       <form>
@@ -64,7 +99,7 @@ const Forms = () => {
 
           <div className="form-group">
             <label className="form-label">
-              industry Name <span className="compulsary">*</span>
+              Industry Name <span className="compulsary">*</span>
             </label>
             <input
               type="text"
@@ -179,7 +214,8 @@ const Forms = () => {
             />
           </div>
         </div>
-        {/* file upload section */}
+
+        {/* File upload section for Certification of Incorporation */}
         <div className="form-group">
           <label className="form-label">
             Certification of Incorporation <span className="compulsary">*</span>
@@ -187,20 +223,69 @@ const Forms = () => {
           <span className="upload-subtitle">
             Upload the Incorporation certificate
           </span>
-          <div className="upload-area">
-            <p>Click to upload or drag and drop</p>
+          <div
+            className="upload-area"
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => handleFileDrop(e, "incorporation")}
+          >
+            <p>
+              <button
+                type="button"
+                onClick={() =>
+                  document.getElementById("incorporation-upload").click()
+                }
+                className="upload-file-button"
+              >
+                Click to upload
+              </button>
+              or drag and drop
+            </p>
             <p>Maximum file size 10 MB</p>
+            <input
+              type="file"
+              accept="application/pdf,image/*"
+              onChange={(e) => handleFileSelect(e, "incorporation")}
+              style={{ display: "none" }}
+              id="incorporation-upload"
+            />
+
+            {incorporationFile && <p>{incorporationFile.name}</p>}
           </div>
         </div>
 
+        {/* File upload section for Company Logo */}
         <div className="form-group">
           <label className="form-label">
             Company Logo <span className="compulsary">*</span>
           </label>
           <span className="upload-subtitle">Upload the company logo</span>
-          <div className="upload-area">
-            <p>Click to upload or drag and drop</p>
+          <div
+            className="upload-area"
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => handleFileDrop(e, "logo")}
+          >
+            <p>
+              <button
+                type="button"
+                onClick={() =>
+                  document.getElementById("incorporation-upload").click()
+                }
+                className="upload-file-button"
+              >
+                Click to upload
+              </button>
+              or drag and drop
+            </p>
             <p>Maximum file size 10 MB</p>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => handleFileSelect(e, "logo")}
+              style={{ display: "none" }}
+              id="logo-upload"
+            />
+
+            {logoFile && <p>{logoFile.name}</p>}
           </div>
         </div>
 
